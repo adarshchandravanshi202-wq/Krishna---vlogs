@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Krishna Vlogs</title>
+<style>
+body{
+margin:0;font-family:Arial,sans-serif;color:white;
+background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e');
+background-size:cover;background-attachment:fixed;
+}
+header{padding:20px;background:rgba(0,0,0,.6);display:flex;gap:15px;align-items:center}
+#logoPreview{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #fff;background:#333}
+.container{padding:20px;background:rgba(0,0,0,.55);margin:15px}
+input,textarea{width:100%;padding:10px;margin:8px 0}
+button{padding:10px 15px;cursor:pointer}
+.blog{background:rgba(255,255,255,.12);padding:12px;border-radius:10px;margin-top:15px}
+.blog img,.blog video{max-width:100%;border-radius:8px;margin-top:8px}
+</style>
+</head>
+<body>
+
+<header>
+<img id="logoPreview" alt="Logo">
+<div>
+<h1>Krishna Vlogs</h1>
+<p>Gym & Environment Blogs</p>
+<input type="file" id="logoInput" accept="image/*">
+</div>
+</header>
+
+<div class="container">
+<h2>Upload Blog</h2>
+<input id="title" placeholder="Blog title">
+<textarea id="content" placeholder="Write blog"></textarea>
+<input type="file" id="media" accept="image/*,video/*">
+<button onclick="uploadBlog()">Upload Blog</button>
+
+<div id="blogs"></div>
+</div>
+
+<script>
+logoInput.onchange=e=>{
+const f=e.target.files[0];
+if(f) logoPreview.src=URL.createObjectURL(f);
+};
+
+function uploadBlog(){
+const title=document.getElementById('title').value;
+const content=document.getElementById('content').value;
+const file=document.getElementById('media').files[0];
+
+let mediaHTML='';
+if(file){
+const url=URL.createObjectURL(file);
+if(file.type.startsWith('image/'))
+ mediaHTML=`<img src="${url}">`;
+else if(file.type.startsWith('video/'))
+ mediaHTML=`<video controls src="${url}"></video>`;
+}
+
+const div=document.createElement('div');
+div.className='blog';
+div.innerHTML=`<h3>${title}</h3><p>${content}</p>${mediaHTML}
+<br><button>👍 Like</button>
+<button onclick="alert('Comment feature demo')">💬 Comment</button>
+<button onclick="this.parentElement.remove()">🗑 Delete</button>`;
+document.getElementById('blogs').prepend(div);
+}
+</script>
+
+</body>
+</html>
